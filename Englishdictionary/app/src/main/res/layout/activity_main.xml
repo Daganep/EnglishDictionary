@@ -42,14 +42,6 @@ tools:context=".view.main.MainActivity">
     
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical | center_horizontal"
-            android:visibility="gone"/>
-
     </FrameLayout>
     
 </layout>

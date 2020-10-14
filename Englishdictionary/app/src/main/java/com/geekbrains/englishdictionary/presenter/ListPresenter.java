@@ -40,7 +40,6 @@ public class ListPresenter extends MvpPresenter<ListView> {
         Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(emitter -> {
             data = emitter;
             getViewState().updateRecyclerView();
-            Log.d("kek", "after getViewState");
             }, throwable -> {
             Log.e("Error", "onError" + throwable);
         });

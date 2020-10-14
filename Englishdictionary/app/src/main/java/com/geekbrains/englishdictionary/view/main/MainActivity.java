@@ -36,8 +36,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
             mainPresenter.setCurrentWord(word);
             hideKeyboard(this);
             mainBinding.warning.setVisibility(View.GONE);
-            mainBinding.textInputLayout.setVisibility(View.GONE);
-            mainBinding.progressBar.setVisibility(View.VISIBLE);
         }
         else mainBinding.warning.setVisibility(View.VISIBLE);
     }
