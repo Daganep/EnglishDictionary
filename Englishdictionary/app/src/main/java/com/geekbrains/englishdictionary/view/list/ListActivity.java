@@ -11,8 +11,11 @@ import android.view.View;
 import com.geekbrains.englishdictionary.R;
 import com.geekbrains.englishdictionary.databinding.ActivityListBinding;
 import com.geekbrains.englishdictionary.di.App;
+import com.geekbrains.englishdictionary.model.entity.SearchResult;
 import com.geekbrains.englishdictionary.presenter.ListPresenter;
 import com.geekbrains.englishdictionary.view.recyclerview.RecyclerViewAdapter;
+
+import java.util.List;
 
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
@@ -36,6 +39,7 @@ public class ListActivity extends MvpAppCompatActivity implements ListView {
                 .setContentView(this, R.layout.activity_list);
 
         listPresenter.requestFromServer();
+        initRecycler();
     }
 
     private void initRecycler(){
@@ -43,7 +47,7 @@ public class ListActivity extends MvpAppCompatActivity implements ListView {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         listActivityBinding.recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerViewAdapter(listPresenter.getData());
+        if (adapter == null) adapter = new RecyclerViewAdapter();
         listActivityBinding.recyclerView.setAdapter(adapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(listActivityBinding.recyclerView.getContext(),
@@ -52,9 +56,10 @@ public class ListActivity extends MvpAppCompatActivity implements ListView {
     }
 
     @Override
-    public void updateRecyclerView(){
-        initRecycler();
-        adapter.notifyDataSetChanged();
+    public void updateRecyclerView(List<SearchResult> results){
+        if(results != null){
+            adapter.setData(results);
+        }
         listActivityBinding.progressBar.setVisibility(View.GONE);
         listActivityBinding.recyclerView.setVisibility(View.VISIBLE);
     }

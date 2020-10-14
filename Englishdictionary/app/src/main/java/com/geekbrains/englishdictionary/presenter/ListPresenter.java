@@ -28,8 +28,6 @@ public class ListPresenter extends MvpPresenter<ListView> {
     @Inject
     Model model;
 
-    List<SearchResult> data;
-
     public ListPresenter(){
         App.getAppComponent().inject(this);
     }
@@ -38,16 +36,17 @@ public class ListPresenter extends MvpPresenter<ListView> {
         Observable<List<SearchResult>> single = retrofitApi.requestServer();
 
         Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(emitter -> {
-            data = emitter;
-            getViewState().updateRecyclerView();
+            getViewState().updateRecyclerView(emitter);
             }, throwable -> {
             Log.e("Error", "onError" + throwable);
         });
 
     }
 
-    public List<SearchResult> getData(){
-        return data;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //В этом методе от disposable отпишись потом,
     }
 
     public String getWord(){

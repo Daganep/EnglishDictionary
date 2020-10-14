@@ -18,8 +18,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<SearchResult> data;
 
-    public RecyclerViewAdapter(List<SearchResult> data){
+    public void setData(List<SearchResult> data){
         this.data = data;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -44,7 +45,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return data.size();
     }
 
-    class ImageViewHolder extends RecyclerView.ViewHolder{
+    static class ImageViewHolder extends RecyclerView.ViewHolder{
 
         TextView mainText;
         TextView meanText;
