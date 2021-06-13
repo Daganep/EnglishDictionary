@@ -1,6 +1,5 @@
 package com.geekbrains.englishdictionary.presenter;
 
-
 import android.util.Log;
 
 import com.geekbrains.englishdictionary.di.App;
@@ -28,6 +27,8 @@ public class ListPresenter extends MvpPresenter<ListView> {
     @Inject
     Model model;
 
+    private Disposable disposable;
+
     public ListPresenter(){
         App.getAppComponent().inject(this);
     }
@@ -35,7 +36,7 @@ public class ListPresenter extends MvpPresenter<ListView> {
     public void requestFromServer(){
         Observable<List<SearchResult>> single = retrofitApi.requestServer();
 
-        Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(emitter -> {
+        disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(emitter -> {
             getViewState().updateRecyclerView(emitter);
             }, throwable -> {
             Log.e("Error", "onError" + throwable);
@@ -46,7 +47,9 @@ public class ListPresenter extends MvpPresenter<ListView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //В этом методе от disposable отпишись потом,
+        if(!disposable.isDisposed()) {
+            disposable.dispose();
+        }
     }
 
     public String getWord(){
